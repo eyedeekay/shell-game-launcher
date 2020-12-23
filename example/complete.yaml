@@ -1,0 +1,56 @@
+App:
+  WorkingDirectory: var/
+  MaxUsers: 512
+  AllowRegistration: true
+  MaxNickLen: 15
+  MenuMaxIdleTime: 600
+  PostLoginCommands:
+    - mkdir %w/userdata/%u
+    - mkdir %w/userdata/%u/dumplog
+    - mkdir %w/userdata/%u/ttyrec
+
+Menus:
+  - Banner: 'Shell Game Launcher - Anonymous access%n======================================'
+    XOffset: 5
+    YOffset: 2
+    MenuEntries:
+      - Key: l
+        Label: login
+        Action: login
+      - Key: r
+        Label: register
+        Action: register
+      - Key: w
+        Label: watch
+        Action: watch_menu
+      - Key: s
+        Label: scores
+        Action: scores
+      - Key: q
+        Label: quit
+        Action: quit
+  - Banner: 'Shell Game Launcher%n==================='
+    XOffset: 5
+    YOffset: 2
+    MenuEntries:
+      - Key: p
+        Label: play Nethack 3.7
+        Action: play nethack3.7
+      - Key: o
+        Label: edit game options
+        Action: options
+      - Key: w
+        Label: watch
+        Action: watch_menu
+      - Key: s
+        Label: scores
+        Action: scores
+      - Key: q
+        Label: quit
+        Action: quit
+
+Games:
+  nethack3.7:
+    ChrootPath: /opt/nethack
+    FileMode: "0666"
+    Commands:
