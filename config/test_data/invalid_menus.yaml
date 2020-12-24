@@ -53,16 +53,6 @@ Menus:
       - Key: q
         Label: quit
         Action: quit
-
-Games:
-  nethack3.7:
-    ChrootPath: /opt/nethack
-    FileMode: "0666"
-    ScoreCommands:
-      - exec /games/nethack -s all
-      - wait
-    Commands:
-      - cp /games/var/save/%u%n.gz /games/var/save/%u%n.gz.bak
-      - exec /games/nethack -u %n
-    Env:
-      NETHACKOPTIONS: "@%ruserdata/%n/%n.nhrc"
+  test:
+    Banner: 'Shell Game Launcher%n==================='
+    XOffset: -1
