@@ -17,38 +17,25 @@ type Config struct {
 }
 
 func (c *Config) validate() error {
+	// App
 	if err := c.App.validate(); err != nil {
 		return err
 	}
+	// Menus
 	if len(c.Menus) < 2 {
 		return errors.New("A valid configuration needs at least two menu entries named anonymous and logged_in")
 	}
-	found_anonymous_menu := false
-	found_logged_in_menu := false
 	for k, v := range c.Menus {
 		if err := v.validate(k); err != nil {
 			return err
 		}
-		if k == "anonymous" {
-			found_anonymous_menu = true
-		}
-		if k == "logged_in" {
-			found_logged_in_menu = true
-		}
 	}
-	if !found_anonymous_menu {
-		return errors.New("No anonymous menu declared")
-	}
-	if !found_logged_in_menu {
-		return errors.New("No logged_in menu declared")
-	}
+	// Games
 	for k, v := range c.Games {
 		if err := v.validate(k); err != nil {
 			return err
 		}
 	}
-	// TODO menu existence is tested in global config
-	// TODO game existence is tested in global config
 	return nil
 }
 
@@ -64,6 +51,14 @@ func LoadFile(path string) (config Config, err error) {
 	if err = decoder.Decode(&config); err != nil {
 		return
 	}
-	err = config.validate()
+	if err = config.validate(); err != nil {
+		return
+	}
+	// If all looks good we validate menu consistency
+	for _, v := range config.Menus {
+		if err = v.validateConsistency(&config); err != nil {
+			return
+		}
+	}
 	return
 }

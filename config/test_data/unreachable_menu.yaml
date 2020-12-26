@@ -58,9 +58,20 @@ Menus:
     XOffset: 5
     YOffset: 2
     MenuEntries:
+      - Key: a
+        Label: edit options for Nethack 3.7
+        Action: chopts nethack3.7
       - Key: z
         Label: back
         Action: menu logged_in
+  unreachable:
+    Banner: 'Options%n======='
+    XOffset: 5
+    YOffset: 2
+    MenuEntries:
+      - Key: a
+        Label: edit options for Nethack 3.7
+        Action: chopts nethack3.7
 
 Games:
   nethack3.7:

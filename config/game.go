@@ -21,7 +21,7 @@ type Game struct {
 	Env map[string]string `yaml:"Env"`
 }
 
-func (a *Game) validate(name string) error {
+func (g *Game) validate(name string) error {
 	// Game name
 	if ok := reValidGameName.MatchString(name); !ok {
 		return errors.New("Invalid Game name, must match regex `^[\\w\\._]+$` : " + name)

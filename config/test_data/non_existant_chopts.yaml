@@ -58,6 +58,9 @@ Menus:
     XOffset: 5
     YOffset: 2
     MenuEntries:
+      - Key: a
+        Label: edit options for Nethack 3.7
+        Action: chopts invalid
       - Key: z
         Label: back
         Action: menu logged_in
@@ -74,3 +77,4 @@ Games:
       - exec /games/nethack -u %n
     Env:
       NETHACKOPTIONS: "@%ruserdata/%n/%n.nhrc"
+

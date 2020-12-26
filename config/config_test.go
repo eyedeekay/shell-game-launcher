@@ -19,7 +19,6 @@ func TestLoadFile(t *testing.T) {
 		t.Fatal("invalid_yaml config file failed without error")
 	}
 
-	// TODO test non existant menu in action menu entries, and duplicate, and that anonymous and logged_in exist
 	// TODO test non existant game in play actions, and duplicate
 	//menuEntry = MenuEntry{
 	//Key:    "p",
@@ -31,25 +30,45 @@ func TestLoadFile(t *testing.T) {
 	//}
 
 	t.Cleanup(func() { os.RemoveAll("var/") })
-	// Invalid App example
+	// Invalid App
 	if _, err := LoadFile("test_data/invalid_app.yaml"); err == nil {
 		t.Fatal("Invalid App entry should fail to load")
 	}
-	// Not enough menus example
+	// Not enough menus
 	if _, err := LoadFile("test_data/not_enough_menus.yaml"); err == nil {
 		t.Fatal("not enough menu entries should fail to load")
 	}
-	// Invalid Menus example
+	// Invalid Menus
 	if _, err := LoadFile("test_data/invalid_menus.yaml"); err == nil {
 		t.Fatal("Invalid menu entry should fail to load")
 	}
-	// no anonymous Menu example
+	// no anonymous Menu
 	if _, err := LoadFile("test_data/no_anonymous_menu.yaml"); err == nil {
 		t.Fatal("Invalid menu entry should fail to load")
 	}
-	// no logged_in Menu example
+	// no logged_in Menu
 	if _, err := LoadFile("test_data/no_logged_in_menu.yaml"); err == nil {
 		t.Fatal("Invalid menu entry should fail to load")
+	}
+	// duplicate menu
+	if _, err := LoadFile("test_data/duplicate_menu.yaml"); err == nil {
+		t.Fatal("duplicate menu should fail to load")
+	}
+	// non existant menu action referenced
+	if _, err := LoadFile("test_data/non_existant_menu.yaml"); err == nil {
+		t.Fatal("menu entry referencing a non existant menu should fail to load")
+	}
+	// non existant game referenced in play action
+	if _, err := LoadFile("test_data/non_existant_game.yaml"); err == nil {
+		t.Fatal("menu entry referencing a non existant play action should fail to load")
+	}
+	// unreachable menu
+	if _, err := LoadFile("test_data/unreachable_menu.yaml"); err == nil {
+		t.Fatal("unreachable menu should fail to load")
+	}
+	// unreachable game
+	if _, err := LoadFile("test_data/unreachable_game.yaml"); err == nil {
+		t.Fatal("unreachable game should fail to load")
 	}
 
 	// Complexe example
@@ -134,6 +153,18 @@ func TestLoadFile(t *testing.T) {
 						Key:    "q",
 						Label:  "quit",
 						Action: "quit",
+					},
+				},
+			},
+			"options": Menu{
+				Banner:  "Options%n=======",
+				XOffset: 5,
+				YOffset: 2,
+				MenuEntries: []MenuEntry{
+					MenuEntry{
+						Key:    "z",
+						Label:  "back",
+						Action: "menu logged_in",
 					},
 				},
 			},

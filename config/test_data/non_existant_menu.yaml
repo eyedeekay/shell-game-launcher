@@ -15,6 +15,9 @@ Menus:
     XOffset: 5
     YOffset: 2
     MenuEntries:
+      - Key: t
+        Label: test
+        Action: menu test
       - Key: l
         Label: login
         Action: login
@@ -37,7 +40,7 @@ Menus:
         Action: play nethack3.7
       - Key: o
         Label: edit game options
-        Action: menu options
+        Action: menu invalid
       - Key: w
         Label: watch
         Action: watch
@@ -53,14 +56,6 @@ Menus:
       - Key: q
         Label: quit
         Action: quit
-  options:
-    Banner: 'Options%n======='
-    XOffset: 5
-    YOffset: 2
-    MenuEntries:
-      - Key: z
-        Label: back
-        Action: menu logged_in
 
 Games:
   nethack3.7:
@@ -74,3 +69,4 @@ Games:
       - exec /games/nethack -u %n
     Env:
       NETHACKOPTIONS: "@%ruserdata/%n/%n.nhrc"
+

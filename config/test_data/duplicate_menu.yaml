@@ -15,6 +15,9 @@ Menus:
     XOffset: 5
     YOffset: 2
     MenuEntries:
+      - Key: t
+        Label: test
+        Action: menu test
       - Key: l
         Label: login
         Action: login
@@ -53,14 +56,22 @@ Menus:
       - Key: q
         Label: quit
         Action: quit
-  options:
-    Banner: 'Options%n======='
+  test:
+    Banner: 'Shell Game Launcher%n==================='
     XOffset: 5
     YOffset: 2
     MenuEntries:
-      - Key: z
-        Label: back
-        Action: menu logged_in
+      - Key: p
+        Label: play Nethack 3.7
+        Action: play nethack3.7
+  test:
+    Banner: 'Duplicate Shell Game Launcher%n==================='
+    XOffset: 5
+    YOffset: 2
+    MenuEntries:
+      - Key: p
+        Label: play Nethack 3.7
+        Action: play nethack3.7
 
 Games:
   nethack3.7:
@@ -74,3 +85,5 @@ Games:
       - exec /games/nethack -u %n
     Env:
       NETHACKOPTIONS: "@%ruserdata/%n/%n.nhrc"
+
+

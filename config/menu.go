@@ -2,6 +2,7 @@ package config
 
 import (
 	"regexp"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -58,6 +59,52 @@ func (m *Menu) validate(name string) error {
 		}
 	}
 	// Loop test
+	return nil
+}
+
+func (m *Menu) validateConsistency(c *Config) error {
+	// Necessary menus
+	if _, ok := c.Menus["anonymous"]; !ok {
+		return errors.New("No anonymous menu declared")
+	}
+	if _, ok := c.Menus["logged_in"]; !ok {
+		return errors.New("No logged_in menu declared")
+	}
+	// Validate actions
+	menus := make(map[string]bool)
+	menus["anonymous"] = true
+	menus["logged_in"] = true
+	playable := make(map[string]bool)
+	for k, v := range c.Menus {
+		for _, e := range v.MenuEntries {
+			tokens := strings.Split(e.Action, " ")
+			switch tokens[0] {
+			case "menu":
+				if _, ok := c.Menus[tokens[1]]; ok {
+					menus[tokens[1]] = true
+				} else {
+					return errors.New("menu action " + tokens[1] + " in menu " + k + " does not exist")
+				}
+			case "play":
+				if _, ok := c.Games[tokens[1]]; ok {
+					playable[tokens[1]] = true
+				} else {
+					return errors.New("play action " + tokens[1] + " in menu " + k + " does not exist")
+				}
+			}
+		}
+	}
+	// Check for unreachables
+	for k, _ := range c.Menus {
+		if _, ok := menus[k]; !ok {
+			return errors.New("unreachable menu : " + k)
+		}
+	}
+	for k, _ := range c.Games {
+		if _, ok := playable[k]; !ok {
+			return errors.New("unplayable game : " + k)
+		}
+	}
 	return nil
 }
 
