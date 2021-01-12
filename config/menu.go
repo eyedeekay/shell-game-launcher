@@ -47,13 +47,12 @@ func (m *Menu) validate(name string) error {
 		return errors.New("YOffset must be a positive integer")
 	}
 	// MenuEntries
-	keys := make(map[string]bool)
+	if len(m.MenuEntries) == 0 {
+		return errors.New("A Menu needs MenuEntries to be valid")
+	}
+	// Duplicate detection is natively handled by the yaml parser
 	for i := 0; i < len(m.MenuEntries); i++ {
 		m.MenuEntries[i].validate()
-		if _, duplicate := keys[m.MenuEntries[i].Key]; duplicate {
-			return errors.New("A Menu has a duplicate key " + m.MenuEntries[i].Key)
-		}
-		keys[m.MenuEntries[i].Key] = true
 		if m.MenuEntries[i].Action == "menu "+name {
 			return errors.New("A menu shall not loop on itself")
 		}

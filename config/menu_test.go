@@ -26,24 +26,9 @@ func TestMenuValidate(t *testing.T) {
 		t.Fatal("Negative YOffset should not be valid")
 	}
 	// MenuEntries are mostly tested bellow
-	menu = Menu{
-		XOffset: 1,
-		YOffset: 1,
-		MenuEntries: []MenuEntry{
-			MenuEntry{
-				Key:    "a",
-				Label:  "test",
-				Action: "quit",
-			},
-			MenuEntry{
-				Key:    "a",
-				Label:  "duplicate",
-				Action: "quit",
-			},
-		},
-	}
+	menu = Menu{}
 	if err := menu.validate("test"); err == nil {
-		t.Fatal("Duplicate Keys in MenuEntries should not be allowed")
+		t.Fatal("A menu without menu entries should not be valid")
 	}
 	// loop menu
 	menu = Menu{
