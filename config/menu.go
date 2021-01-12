@@ -39,11 +39,11 @@ func (m *Menu) validate(name string) error {
 	}
 	// Banner is just any string, nothing to validate
 	// XOffset
-	if m.XOffset <= 0 {
+	if m.XOffset < 0 {
 		return errors.New("XOffset must be a positive integer")
 	}
 	// YOffset
-	if m.YOffset <= 0 {
+	if m.YOffset < 0 {
 		return errors.New("YOffset must be a positive integer")
 	}
 	// MenuEntries

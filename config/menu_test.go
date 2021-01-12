@@ -18,10 +18,7 @@ func TestMenuValidate(t *testing.T) {
 		t.Fatal("Negative XOffset should not be valid")
 	}
 	// YOffset
-	menu = Menu{
-		XOffset: 1,
-		YOffset: -1,
-	}
+	menu = Menu{YOffset: -1}
 	if err := menu.validate("test"); err == nil {
 		t.Fatal("Negative YOffset should not be valid")
 	}
