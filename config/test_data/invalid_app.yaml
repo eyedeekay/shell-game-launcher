@@ -1,3 +1,11 @@
-App:
-  WorkingDirectory: var/
-  MaxUsers: -1
+Menus:
+  anonymous:
+    MenuEntries:
+      - Key: q
+        Label: quit
+        Action: quit
+  logged_in:
+    MenuEntries:
+      - Key: q
+        Label: quit
+        Action: quit

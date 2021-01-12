@@ -19,6 +19,12 @@ func TestLoadFile(t *testing.T) {
 		t.Fatal("invalid_yaml config file failed without error")
 	}
 
+	// Minimal yaml file
+	_, err = LoadFile("test_data/minimal.yaml")
+	if err != nil {
+		t.Fatal("minimal config file should load without errors")
+	}
+
 	// TODO test non existant game in play actions, and duplicate
 	//menuEntry = MenuEntry{
 	//Key:    "p",

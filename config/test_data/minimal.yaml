@@ -16,4 +16,3 @@ Menus:
       - Key: q
         Label: quit
         Action: quit
-  test:

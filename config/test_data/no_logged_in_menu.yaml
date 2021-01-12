@@ -1,46 +1,18 @@
 App:
   WorkingDirectory: var/
-  MaxUsers: 512
+  MaxUsers: 1
   AllowRegistration: true
   MaxNickLen: 15
   MenuMaxIdleTime: 600
-  PostLoginCommands:
-    - mkdir %w/userdata/%u
-    - mkdir %w/userdata/%u/dumplog
-    - mkdir %w/userdata/%u/ttyrec
 
 Menus:
   anonymous:
-    Banner: 'Shell Game Launcher - Anonymous access%n======================================'
-    XOffset: 5
-    YOffset: 2
     MenuEntries:
-      - Key: l
-        Label: login
-        Action: login
-      - Key: r
-        Label: register
-        Action: register
-      - Key: w
-        Label: watch
-        Action: watch_menu
       - Key: q
         Label: quit
         Action: quit
   test:
-    Banner: 'Shell Game Launcher - Anonymous access%n======================================'
-    XOffset: 5
-    YOffset: 2
     MenuEntries:
-      - Key: l
-        Label: login
-        Action: login
-      - Key: r
-        Label: register
-        Action: register
-      - Key: w
-        Label: watch
-        Action: watch_menu
       - Key: q
         Label: quit
         Action: quit
