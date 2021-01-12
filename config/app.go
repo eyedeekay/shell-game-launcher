@@ -28,8 +28,8 @@ func (a *App) validate() error {
 	if err := os.MkdirAll(a.WorkingDirectory, 0700); err != nil {
 		return errors.Wrapf(err, "Invalid WorkingDirectory : %s", a.WorkingDirectory)
 	}
-	if err := unix.Access(a.WorkingDirectory, unix.W_OK); err != nil {
-		return errors.Wrapf(err, "Invalid WorkingDirectory : %s", a.WorkingDirectory)
+	if err := unix.Access(a.WorkingDirectory, unix.W_OK|unix.R_OK|unix.X_OK); err != nil {
+		return errors.Wrapf(err, "invalid WorkingDirectory : %s", a.WorkingDirectory)
 	}
 	// MaxUsers
 	if a.MaxUsers <= 0 {

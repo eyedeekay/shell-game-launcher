@@ -56,4 +56,15 @@ func TestAppvalidate(t *testing.T) {
 	}
 
 	//PostLoginCommands is tested from command.go
+
+	// A valid App
+	app = App{
+		WorkingDirectory: "var/",
+		MaxUsers:         512,
+		MaxNickLen:       15,
+		MenuMaxIdleTime:  60,
+	}
+	if err := app.validate(); err != nil {
+		t.Fatal("A valid app should pass")
+	}
 }
