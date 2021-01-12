@@ -21,8 +21,37 @@ func TestLoadFile(t *testing.T) {
 
 	// Minimal yaml file
 	_, err = LoadFile("test_data/minimal.yaml")
-	if err != nil {
-		t.Fatal("minimal config file should load without errors")
+	want := Config{
+		App: App{
+			WorkingDirectory:  "var/",
+			MaxUsers:          1,
+			AllowRegistration: true,
+			MaxNickLen:        15,
+			MenuMaxIdleTime:   600,
+		},
+		Menus: map[string]Menu{
+			"anonymous": Menu{
+				MenuEntries: []MenuEntry{
+					MenuEntry{
+						Key:    "q",
+						Label:  "quit",
+						Action: "quit",
+					},
+				},
+			},
+			"logged_in": Menu{
+				MenuEntries: []MenuEntry{
+					MenuEntry{
+						Key:    "q",
+						Label:  "quit",
+						Action: "quit",
+					},
+				},
+			},
+		},
+	}
+	if config, err := LoadFile("test_data/minimal.yaml"); err != nil || !reflect.DeepEqual(want, config) {
+		t.Fatalf("minimal example failed:\nerror %v\nwant:%+v\ngot: %+v", err, want, config)
 	}
 
 	// TODO test non existant game in play actions, and duplicate
@@ -78,8 +107,7 @@ func TestLoadFile(t *testing.T) {
 	}
 
 	// Complexe example
-	config, err := LoadFile("../example/complete.yaml")
-	want := Config{
+	want = Config{
 		App: App{
 			WorkingDirectory:  "var/",
 			MaxUsers:          512,
@@ -193,7 +221,7 @@ func TestLoadFile(t *testing.T) {
 			},
 		},
 	}
-	if err != nil || !reflect.DeepEqual(want, config) {
+	if config, err := LoadFile("../example/complete.yaml"); err != nil || !reflect.DeepEqual(want, config) {
 		t.Fatalf("complete example failed:\nerror %v\nwant:%+v\ngot: %+v", err, want, config)
 	}
 }
