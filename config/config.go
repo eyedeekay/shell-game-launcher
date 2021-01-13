@@ -39,26 +39,26 @@ func (c *Config) validate() error {
 	return nil
 }
 
-// LoadFile loads the config from a given file
-func LoadFile(path string) (config Config, err error) {
-	var f *os.File
-	f, err = os.Open(path)
-	if err != nil {
-		return config, errors.Wrapf(err, "Failed to open configuration file %s", path)
+// LoadFile loads the c from a given file
+func LoadFile(path string) (*Config, error) {
+	var c *Config
+	f, errOpen := os.Open(path)
+	if errOpen != nil {
+		return nil, errors.Wrapf(errOpen, "Failed to open curation file %s", path)
 	}
 	defer f.Close()
 	decoder := yaml.NewDecoder(f)
-	if err = decoder.Decode(&config); err != nil {
-		return config, errors.Wrap(err, "Failed to decode configuration file")
+	if err := decoder.Decode(&c); err != nil {
+		return nil, errors.Wrap(err, "Failed to decode curation file")
 	}
-	if err = config.validate(); err != nil {
-		return config, errors.Wrap(err, "Failed to validate configuration")
+	if err := c.validate(); err != nil {
+		return nil, errors.Wrap(err, "Failed to validate curation")
 	}
 	// If all looks good we validate menu consistency
-	for _, v := range config.Menus {
-		if err = v.validateConsistency(&config); err != nil {
-			return config, errors.Wrap(err, "Failed menu consistency checks")
+	for _, v := range c.Menus {
+		if err := v.validateConsistency(c); err != nil {
+			return nil, errors.Wrap(err, "Failed menu consistency checks")
 		}
 	}
-	return
+	return c, nil
 }
