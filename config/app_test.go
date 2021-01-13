@@ -55,14 +55,34 @@ func TestAppvalidate(t *testing.T) {
 		t.Fatal("Negative or zero MenuMaxIdleTime should not be valid.")
 	}
 
-	//PostLoginCommands is tested from command.go
-
-	// A valid App
+	//PostLoginCommands are mostly tested from command_test.go
 	app = App{
 		WorkingDirectory: "var/",
 		MaxUsers:         512,
 		MaxNickLen:       15,
 		MenuMaxIdleTime:  60,
+	}
+	if err := app.validate(); err != nil {
+		t.Fatal("Empty PostLoginCommands list should be valid")
+	}
+	app = App{
+		WorkingDirectory:  "var/",
+		MaxUsers:          512,
+		MaxNickLen:        15,
+		MenuMaxIdleTime:   60,
+		PostLoginCommands: []string{"invalid"},
+	}
+	if err := app.validate(); err == nil {
+		t.Fatal("Invalid command in PostLoginCommands should not be valid")
+	}
+
+	// A valid App
+	app = App{
+		WorkingDirectory:  "var/",
+		MaxUsers:          512,
+		MaxNickLen:        15,
+		MenuMaxIdleTime:   60,
+		PostLoginCommands: []string{"wait"},
 	}
 	if err := app.validate(); err != nil {
 		t.Fatal("A valid app should pass")

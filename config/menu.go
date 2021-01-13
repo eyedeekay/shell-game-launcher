@@ -70,9 +70,10 @@ func (m *Menu) validateConsistency(c *Config) error {
 		return errors.New("No logged_in menu declared")
 	}
 	// Validate actions
-	menus := make(map[string]bool)
-	menus["anonymous"] = true
-	menus["logged_in"] = true
+	menus := map[string]bool{
+		"anonymous": true,
+		"logged_in": true,
+	}
 	playable := make(map[string]bool)
 	for k, v := range c.Menus {
 		for _, e := range v.MenuEntries {

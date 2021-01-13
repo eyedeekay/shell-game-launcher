@@ -44,20 +44,20 @@ func LoadFile(path string) (config Config, err error) {
 	var f *os.File
 	f, err = os.Open(path)
 	if err != nil {
-		return
+		return config, errors.Wrapf(err, "Failed to open configuration file %s", path)
 	}
 	defer f.Close()
 	decoder := yaml.NewDecoder(f)
 	if err = decoder.Decode(&config); err != nil {
-		return
+		return config, errors.Wrap(err, "Failed to decode configuration file")
 	}
 	if err = config.validate(); err != nil {
-		return
+		return config, errors.Wrap(err, "Failed to validate configuration")
 	}
 	// If all looks good we validate menu consistency
 	for _, v := range config.Menus {
 		if err = v.validateConsistency(&config); err != nil {
-			return
+			return config, errors.Wrap(err, "Failed menu consistency checks")
 		}
 	}
 	return

@@ -64,11 +64,8 @@ Menus:
 
 Games:
   nethack3.7:
-    ChrootPath: /opt/nethack
+    ChrootPath: test_data/fake_nethack_directory
     FileMode: "0666"
-    ScoreCommands:
-      - exec /games/nethack -s all
-      - wait
     Commands:
       - cp /games/var/save/%u%n.gz /games/var/save/%u%n.gz.bak
       - exec /games/nethack -u %n

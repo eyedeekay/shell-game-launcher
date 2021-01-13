@@ -13,12 +13,17 @@ Menus:
         Action: quit
   logged_in:
     MenuEntries:
-      - Key: q
-        Label: quit
-        Action: quit
+      - Key: p
+        Label: play
+        Action: play test
 
 Games:
-  unreachable:
+  test:
+    ChrootPath: test_data/fake_nethack_directory
+    FileMode:   0777
+    Commands:
+      - wait
+  test:
     ChrootPath: test_data/fake_nethack_directory
     FileMode:   0777
     Commands:

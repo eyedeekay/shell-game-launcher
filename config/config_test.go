@@ -54,16 +54,6 @@ func TestLoadFile(t *testing.T) {
 		t.Fatalf("minimal example failed:\nerror %v\nwant:%+v\ngot: %+v", err, want, config)
 	}
 
-	// TODO test non existant game in play actions, and duplicate
-	//menuEntry = MenuEntry{
-	//Key:    "p",
-	//Label:  "play non existant game",
-	//Action: "play nonexistant",
-	//}
-	//if err := menuEntry.validate(); err == nil {
-	//t.Fatal("An inexistant game cannot be played")
-	//}
-
 	t.Cleanup(func() { os.RemoveAll("var/") })
 	// Invalid App
 	if _, err := LoadFile("test_data/invalid_app.yaml"); err == nil {
@@ -101,8 +91,16 @@ func TestLoadFile(t *testing.T) {
 	if _, err := LoadFile("test_data/unreachable_menu.yaml"); err == nil {
 		t.Fatal("unreachable menu should fail to load")
 	}
+	// invalid game
+	if _, err := LoadFile("test_data/invalid_game.yaml"); err == nil {
+		t.Fatal("invalid game should fail to load")
+	}
 	// unreachable game
 	if _, err := LoadFile("test_data/unreachable_game.yaml"); err == nil {
+		t.Fatal("unreachable game should fail to load")
+	}
+	// duplicate game
+	if _, err := LoadFile("test_data/duplicate_game.yaml"); err == nil {
 		t.Fatal("unreachable game should fail to load")
 	}
 
@@ -205,12 +203,8 @@ func TestLoadFile(t *testing.T) {
 		},
 		Games: map[string]Game{
 			"nethack3.7": Game{
-				ChrootPath: "/opt/nethack",
+				ChrootPath: "test_data/fake_nethack_directory",
 				FileMode:   "0666",
-				ScoreCommands: []string{
-					"exec /games/nethack -s all",
-					"wait",
-				},
 				Commands: []string{
 					"cp /games/var/save/%u%n.gz /games/var/save/%u%n.gz.bak",
 					"exec /games/nethack -u %n",
