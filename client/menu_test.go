@@ -35,7 +35,7 @@ func TestDisplayMenu(t *testing.T) {
 		currentMenu: "test",
 		login:       "nil",
 	}
-	want := []byte("\033[2J\n" +
+	want := []byte("\033[2J" +
 		"TEST TEST TEST\n" +
 		"\n\n\n" +
 		"     q) quit\n")

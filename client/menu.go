@@ -4,7 +4,7 @@ import "fmt"
 
 func (s *State) displayMenu() {
 	menu := s.config.Menus[s.currentMenu]
-	fmt.Println("\033[2J") // clear the screen
+	fmt.Print("\033[2J") // clear the screen
 	fmt.Println(menu.Banner)
 	output := ""
 	prefix := ""
