@@ -14,7 +14,7 @@ func TestDisplayMenu(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 
-	// Complete menu
+	// Complete menu, while not logged in
 	state := State{
 		config: &config.Config{
 			Menus: map[string]config.Menu{
@@ -31,16 +31,61 @@ func TestDisplayMenu(t *testing.T) {
 			},
 		},
 		currentMenu: "test",
-		login:       "nil",
+		login:       "",
 	}
 	want := []byte("\033[2J" +
 		"TEST TEST TEST\n" +
+		"\n" +
+		"Not logged in.\n" +
 		"\n" +
 		"q) quit\n")
 	state.displayMenu()
 	// back to normal state
 	w.Close()
 	out, _ := ioutil.ReadAll(r)
+	if !reflect.DeepEqual(out, want) {
+		t.Fatalf("menu displayed incorrectly:\nwant:%+v\ngot: %+v", want, out)
+	}
+
+	// Complete menu, while logged in
+	r, w, _ = os.Pipe()
+	os.Stdout = w
+
+	// Complete menu, while not logged in
+	state = State{
+		config: &config.Config{
+			Menus: map[string]config.Menu{
+				"test": config.Menu{
+					Banner: "TEST TEST TEST",
+					MenuEntries: []config.MenuEntry{
+						config.MenuEntry{
+							Key:    "w",
+							Label:  "wait",
+							Action: "wait",
+						},
+						config.MenuEntry{
+							Key:    "q",
+							Label:  "quit",
+							Action: "quit",
+						},
+					},
+				},
+			},
+		},
+		currentMenu: "test",
+		login:       "test",
+	}
+	want = []byte("\033[2J" +
+		"TEST TEST TEST\n" +
+		"\n" +
+		"Logged in as: test\n" +
+		"\n" +
+		"w) wait\n" +
+		"q) quit\n")
+	state.displayMenu()
+	// back to normal state
+	w.Close()
+	out, _ = ioutil.ReadAll(r)
 	if !reflect.DeepEqual(out, want) {
 		t.Fatalf("menu displayed incorrectly:\nwant:%+v\ngot: %+v", want, out)
 	}
