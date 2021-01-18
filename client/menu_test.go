@@ -23,7 +23,7 @@ func TestDisplayMenu(t *testing.T) {
 					MenuEntries: []config.MenuEntry{
 						config.MenuEntry{
 							Key:    "q",
-							Label:  "quit",
+							Label:  "quit entry",
 							Action: "quit",
 						},
 					},
@@ -38,7 +38,7 @@ func TestDisplayMenu(t *testing.T) {
 		"\n" +
 		"Not logged in.\n" +
 		"\n" +
-		"q) quit\n")
+		"q) quit entry\n")
 	state.displayMenu()
 	// back to normal state
 	w.Close()
@@ -60,12 +60,12 @@ func TestDisplayMenu(t *testing.T) {
 					MenuEntries: []config.MenuEntry{
 						config.MenuEntry{
 							Key:    "w",
-							Label:  "wait",
+							Label:  "wait entry",
 							Action: "wait",
 						},
 						config.MenuEntry{
 							Key:    "q",
-							Label:  "quit",
+							Label:  "quit entry",
 							Action: "quit",
 						},
 					},
@@ -80,8 +80,8 @@ func TestDisplayMenu(t *testing.T) {
 		"\n" +
 		"Logged in as: test\n" +
 		"\n" +
-		"w) wait\n" +
-		"q) quit\n")
+		"w) wait entry\n" +
+		"q) quit entry\n")
 	state.displayMenu()
 	// back to normal state
 	w.Close()
