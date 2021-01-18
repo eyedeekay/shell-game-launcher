@@ -14,10 +14,6 @@ var reValidKey = regexp.MustCompile(`^\w$`)
 type Menu struct {
 	// Banner is the banner to display before the menu
 	Banner string `yaml:"Banner"`
-	// XOffset is the X offset between the banner and the menu
-	XOffset int `yaml:"XOffset"`
-	// YOffset is the Y offset between the banner and the menu
-	YOffset int `yaml:"YOffset"`
 	// Commands is the list of commands in the menu
 	MenuEntries []MenuEntry `yaml:"MenuEntries"`
 }
@@ -38,14 +34,6 @@ func (m *Menu) validate(name string) error {
 		return errors.New("Invalid menu name, must be an alphanumeric word and match regex `^[\\w\\._]+$` : " + name)
 	}
 	// Banner is just any string, nothing to validate
-	// XOffset
-	if m.XOffset < 0 {
-		return errors.New("XOffset must be a positive integer")
-	}
-	// YOffset
-	if m.YOffset < 0 {
-		return errors.New("YOffset must be a positive integer")
-	}
 	// MenuEntries
 	if len(m.MenuEntries) == 0 {
 		return errors.New("A Menu needs MenuEntries to be valid")

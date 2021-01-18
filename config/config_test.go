@@ -120,9 +120,7 @@ func TestLoadFile(t *testing.T) {
 		},
 		Menus: map[string]Menu{
 			"anonymous": Menu{
-				Banner:  "Shell Game Launcher - Anonymous access%n======================================",
-				XOffset: 5,
-				YOffset: 2,
+				Banner: "Shell Game Launcher - Anonymous access%n======================================",
 				MenuEntries: []MenuEntry{
 					MenuEntry{
 						Key:    "l",
@@ -147,9 +145,7 @@ func TestLoadFile(t *testing.T) {
 				},
 			},
 			"logged_in": Menu{
-				Banner:  "Shell Game Launcher%n===================",
-				XOffset: 5,
-				YOffset: 2,
+				Banner: "Shell Game Launcher%n===================",
 				MenuEntries: []MenuEntry{
 					MenuEntry{
 						Key:    "p",
@@ -189,9 +185,7 @@ func TestLoadFile(t *testing.T) {
 				},
 			},
 			"options": Menu{
-				Banner:  "Options%n=======",
-				XOffset: 5,
-				YOffset: 2,
+				Banner: "Options%n=======",
 				MenuEntries: []MenuEntry{
 					MenuEntry{
 						Key:    "z",

@@ -12,16 +12,6 @@ func TestMenuValidate(t *testing.T) {
 		t.Fatal("non alphanumeric menu name is not valid")
 	}
 	// Banner is just any string, nothing to validate
-	// XOffset
-	menu = Menu{XOffset: -1}
-	if err := menu.validate("test"); err == nil {
-		t.Fatal("Negative XOffset should not be valid")
-	}
-	// YOffset
-	menu = Menu{YOffset: -1}
-	if err := menu.validate("test"); err == nil {
-		t.Fatal("Negative YOffset should not be valid")
-	}
 	// MenuEntries are mostly tested bellow
 	menu = Menu{}
 	if err := menu.validate("test"); err == nil {
@@ -29,8 +19,6 @@ func TestMenuValidate(t *testing.T) {
 	}
 	// loop menu
 	menu = Menu{
-		XOffset: 1,
-		YOffset: 1,
 		MenuEntries: []MenuEntry{
 			MenuEntry{
 				Key:    "a",
@@ -44,8 +32,6 @@ func TestMenuValidate(t *testing.T) {
 	}
 	// A valid menu
 	menu = Menu{
-		XOffset: 1,
-		YOffset: 1,
 		MenuEntries: []MenuEntry{
 			MenuEntry{
 				Key:    "a",

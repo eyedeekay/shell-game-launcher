@@ -19,9 +19,7 @@ func TestDisplayMenu(t *testing.T) {
 		config: &config.Config{
 			Menus: map[string]config.Menu{
 				"test": config.Menu{
-					Banner:  "TEST TEST TEST",
-					XOffset: 5,
-					YOffset: 3,
+					Banner: "TEST TEST TEST",
 					MenuEntries: []config.MenuEntry{
 						config.MenuEntry{
 							Key:    "q",
@@ -37,8 +35,8 @@ func TestDisplayMenu(t *testing.T) {
 	}
 	want := []byte("\033[2J" +
 		"TEST TEST TEST\n" +
-		"\n\n\n" +
-		"     q) quit\n")
+		"\n" +
+		"q) quit\n")
 	state.displayMenu()
 	// back to normal state
 	w.Close()

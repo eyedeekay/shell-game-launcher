@@ -12,8 +12,6 @@ App:
 Menus:
   anonymous:
     Banner: 'Shell Game Launcher - Anonymous access%n======================================'
-    XOffset: 5
-    YOffset: 2
     MenuEntries:
       - Key: l
         Label: login
@@ -29,8 +27,6 @@ Menus:
         Action: quit
   logged_in:
     Banner: 'Shell Game Launcher%n==================='
-    XOffset: 5
-    YOffset: 2
     MenuEntries:
       - Key: p
         Label: play Nethack 3.7
@@ -55,8 +51,6 @@ Menus:
         Action: quit
   options:
     Banner: 'Options%n======='
-    XOffset: 5
-    YOffset: 2
     MenuEntries:
       - Key: z
         Label: back
