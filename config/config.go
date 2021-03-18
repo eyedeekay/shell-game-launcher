@@ -44,15 +44,15 @@ func LoadFile(path string) (*Config, error) {
 	var c *Config
 	f, errOpen := os.Open(path)
 	if errOpen != nil {
-		return nil, errors.Wrapf(errOpen, "Failed to open curation file %s", path)
+		return nil, errors.Wrapf(errOpen, "Failed to open configuration file %s", path)
 	}
 	defer f.Close()
 	decoder := yaml.NewDecoder(f)
 	if err := decoder.Decode(&c); err != nil {
-		return nil, errors.Wrap(err, "Failed to decode curation file")
+		return nil, errors.Wrap(err, "Failed to decode configuration file")
 	}
 	if err := c.validate(); err != nil {
-		return nil, errors.Wrap(err, "Failed to validate curation")
+		return nil, errors.Wrap(err, "Failed to validate configuration")
 	}
 	// If all looks good we validate menu consistency
 	for _, v := range c.Menus {
