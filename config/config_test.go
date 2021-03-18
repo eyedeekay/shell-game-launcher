@@ -20,7 +20,6 @@ func TestLoadFile(t *testing.T) {
 	}
 
 	// Minimal yaml file
-	_, err = LoadFile("test_data/minimal.yaml")
 	want := Config{
 		App: App{
 			WorkingDirectory:  "var/",
