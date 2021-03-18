@@ -49,10 +49,13 @@ func TestLoadFile(t *testing.T) {
 			},
 		},
 	}
-	if config, err := LoadFile("test_data/minimal.yaml"); err != nil || !reflect.DeepEqual(want, *config) {
-		t.Fatalf("minimal example failed:\nerror %v\nwant:%+v\ngot: %+v", err, want, *config)
+	config, err := LoadFile("test_data/minimal.yaml")
+	if err != nil {
+		t.Fatalf("minimal example failed with error : %v", err)
 	}
-
+	if config != nil && !reflect.DeepEqual(want, *config) {
+		t.Fatalf("minimal example failed:\nwant:%+v\ngot: %+v", want, *config)
+	}
 	t.Cleanup(func() { os.RemoveAll("var/") })
 	// Invalid App
 	if _, err := LoadFile("test_data/invalid_app.yaml"); err == nil {
@@ -208,7 +211,11 @@ func TestLoadFile(t *testing.T) {
 			},
 		},
 	}
-	if config, err := LoadFile("../example/complete.yaml"); err != nil || !reflect.DeepEqual(want, *config) {
-		t.Fatalf("complete example failed:\nerror %v\nwant:%+v\ngot: %+v", err, want, *config)
+	config, err = LoadFile("../example/complete.yaml")
+	if err != nil {
+		t.Fatalf("complete example failed with error : %v", err)
+	}
+	if config != nil && !reflect.DeepEqual(want, *config) {
+		t.Fatalf("complete example failed:\nwant:%+v\ngot: %+v", want, *config)
 	}
 }
