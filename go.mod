@@ -1,6 +1,6 @@
 module shell-game-launcher
 
-go 1.15
+go 1.17
 
 require (
 	github.com/pkg/errors v0.9.1
