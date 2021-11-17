@@ -2,7 +2,7 @@ package client
 
 import (
 	"os"
-	"shell-game-launcher/config"
+	"shell-game-launcher/pkg/config"
 	"testing"
 )
 

@@ -1,7 +1,7 @@
 package client
 
 import (
-	"shell-game-launcher/config"
+	"shell-game-launcher/pkg/config"
 )
 
 type State struct {

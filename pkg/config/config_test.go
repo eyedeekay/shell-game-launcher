@@ -211,7 +211,7 @@ func TestLoadFile(t *testing.T) {
 			},
 		},
 	}
-	config, err = LoadFile("../example/complete.yaml")
+	config, err = LoadFile("../../example/complete.yaml")
 	if err != nil {
 		t.Fatalf("complete example failed with error : %v", err)
 	}

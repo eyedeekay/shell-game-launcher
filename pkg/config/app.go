@@ -21,6 +21,7 @@ type App struct {
 	MenuMaxIdleTime int `yaml:"MenuMaxIdleTime"`
 	// PostLoginCommands is the list of commands to execute upon login, like creating save directories for games
 	PostLoginCommands []string `yaml:"PostLoginCommands"`
+	// TODO admin contact
 }
 
 func (a *App) validate() error {
