@@ -1,9 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"regexp"
 
-	"github.com/pkg/errors"
 	"golang.org/x/sys/unix"
 )
 
@@ -26,23 +26,23 @@ type Game struct {
 func (g *Game) validate(name string) error {
 	// Game name
 	if ok := reValidGameName.MatchString(name); !ok {
-		return errors.New("Invalid Game name, must match regex `^[\\w\\._]+$` : " + name)
+		return fmt.Errorf("Invalid Game name, must match regex `^[\\w\\._]+$` : " + name)
 	}
 	// ChrootPath  TODO
 	if err := unix.Access(g.ChrootPath, unix.R_OK|unix.X_OK); err != nil {
-		return errors.Wrapf(err, "Invalid ChrootPath : %s", g.ChrootPath)
+		return fmt.Errorf("Invalid ChrootPath %s : %w", g.ChrootPath, err)
 	}
 	// FileMode
 	if ok := reValidFileMode.MatchString(g.FileMode); !ok {
-		return errors.New("Invalid File Mode, must match regex `^0[\\d]{3}$` : " + name)
+		return fmt.Errorf("Invalid File Mode, must match regex `^0[\\d]{3}$` : " + name)
 	}
 	// Commands
 	if len(g.Commands) == 0 {
-		return errors.New("Invalid game " + name + " has no commands")
+		return fmt.Errorf("Invalid game " + name + " has no commands")
 	}
 	for i := 0; i < len(g.Commands); i++ {
 		if err := validateCommand(g.Commands[i]); err != nil {
-			return errors.Wrapf(err, "Failed to validate Commands for game %s", name)
+			return fmt.Errorf("Failed to validate Commands for game %s : %w", name, err)
 		}
 	}
 	// Env
@@ -50,12 +50,12 @@ func (g *Game) validate(name string) error {
 		for _, c := range k {
 			switch c {
 			case '=':
-				return errors.New("Environment variable key must not contain equal sign")
+				return fmt.Errorf("Environment variable key must not contain equal sign")
 			case '\000':
-				return errors.New("Environment variable key must not contain null character")
+				return fmt.Errorf("Environment variable key must not contain null character")
 			}
 			if reSpace.MatchString(string(c)) {
-				return errors.New("Environment variable key must not contain spaces")
+				return fmt.Errorf("Environment variable key must not contain spaces")
 			}
 		}
 	}

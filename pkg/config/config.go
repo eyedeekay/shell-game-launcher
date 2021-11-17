@@ -1,9 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 )
 
@@ -23,7 +23,7 @@ func (c *Config) validate() error {
 	}
 	// Menus
 	if len(c.Menus) < 2 {
-		return errors.New("A valid configuration needs at least two menu entries named anonymous and logged_in")
+		return fmt.Errorf("A valid configuration needs at least two menu entries named anonymous and logged_in")
 	}
 	for k, v := range c.Menus {
 		if err := v.validate(k); err != nil {
@@ -44,20 +44,20 @@ func LoadFile(path string) (*Config, error) {
 	var c *Config
 	f, errOpen := os.Open(path)
 	if errOpen != nil {
-		return nil, errors.Wrapf(errOpen, "Failed to open configuration file %s", path)
+		return nil, fmt.Errorf("Failed to open configuration file %s : %w", path, errOpen)
 	}
 	defer f.Close()
 	decoder := yaml.NewDecoder(f)
 	if err := decoder.Decode(&c); err != nil {
-		return nil, errors.Wrap(err, "Failed to decode configuration file")
+		return nil, fmt.Errorf("Failed to decode configuration file : %w", err)
 	}
 	if err := c.validate(); err != nil {
-		return nil, errors.Wrap(err, "Failed to validate configuration")
+		return nil, fmt.Errorf("Failed to validate configuration : %w", err)
 	}
 	// If all looks good we validate menu consistency
 	for _, v := range c.Menus {
 		if err := v.validateConsistency(c); err != nil {
-			return nil, errors.Wrap(err, "Failed menu consistency checks")
+			return nil, fmt.Errorf("Failed menu consistency checks : %w", err)
 		}
 	}
 	return c, nil

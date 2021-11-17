@@ -1,10 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 var reValidMenuName = regexp.MustCompile(`^[\w\._]+$`)
@@ -31,18 +30,18 @@ type MenuEntry struct {
 func (m *Menu) validate(name string) error {
 	// validate name
 	if ok := reValidMenuName.MatchString(name); !ok {
-		return errors.New("Invalid menu name, must be an alphanumeric word and match regex `^[\\w\\._]+$` : " + name)
+		return fmt.Errorf("Invalid menu name, must be an alphanumeric word and match regex `^[\\w\\._]+$` : " + name)
 	}
 	// Banner is just any string, nothing to validate
 	// MenuEntries
 	if len(m.MenuEntries) == 0 {
-		return errors.New("A Menu needs MenuEntries to be valid")
+		return fmt.Errorf("A Menu needs MenuEntries to be valid")
 	}
 	// Duplicate detection is natively handled by the yaml parser
 	for i := 0; i < len(m.MenuEntries); i++ {
 		m.MenuEntries[i].validate()
 		if m.MenuEntries[i].Action == "menu "+name {
-			return errors.New("A menu shall not loop on itself")
+			return fmt.Errorf("A menu shall not loop on itself")
 		}
 	}
 	// Loop test
@@ -52,10 +51,10 @@ func (m *Menu) validate(name string) error {
 func (m *Menu) validateConsistency(c *Config) error {
 	// Necessary menus
 	if _, ok := c.Menus["anonymous"]; !ok {
-		return errors.New("No anonymous menu declared")
+		return fmt.Errorf("No anonymous menu declared")
 	}
 	if _, ok := c.Menus["logged_in"]; !ok {
-		return errors.New("No logged_in menu declared")
+		return fmt.Errorf("No logged_in menu declared")
 	}
 	// Validate actions
 	menus := map[string]bool{
@@ -71,13 +70,13 @@ func (m *Menu) validateConsistency(c *Config) error {
 				if _, ok := c.Menus[tokens[1]]; ok {
 					menus[tokens[1]] = true
 				} else {
-					return errors.New("menu action " + tokens[1] + " in menu " + k + " does not exist")
+					return fmt.Errorf("menu action " + tokens[1] + " in menu " + k + " does not exist")
 				}
 			case "play":
 				if _, ok := c.Games[tokens[1]]; ok {
 					playable[tokens[1]] = true
 				} else {
-					return errors.New("play action " + tokens[1] + " in menu " + k + " does not exist")
+					return fmt.Errorf("play action " + tokens[1] + " in menu " + k + " does not exist")
 				}
 			}
 		}
@@ -85,12 +84,12 @@ func (m *Menu) validateConsistency(c *Config) error {
 	// Check for unreachables
 	for k, _ := range c.Menus {
 		if _, ok := menus[k]; !ok {
-			return errors.New("unreachable menu : " + k)
+			return fmt.Errorf("unreachable menu : " + k)
 		}
 	}
 	for k, _ := range c.Games {
 		if _, ok := playable[k]; !ok {
-			return errors.New("unplayable game : " + k)
+			return fmt.Errorf("unplayable game : " + k)
 		}
 	}
 	return nil
@@ -99,15 +98,15 @@ func (m *Menu) validateConsistency(c *Config) error {
 func (m *MenuEntry) validate() error {
 	// Key
 	if ok := reValidKey.MatchString(m.Key); !ok {
-		return errors.New("Invalid Key, must be exactly one alphanumeric character and match regex `^\\w$` : " + m.Key)
+		return fmt.Errorf("Invalid Key, must be exactly one alphanumeric character and match regex `^\\w$` : " + m.Key)
 	}
 	// Label
 	if len(m.Label) <= 0 {
-		return errors.New("Invalid Label, cannot be empty")
+		return fmt.Errorf("Invalid Label, cannot be empty")
 	}
 	// Action
 	if err := validateAction(m.Action); err != nil {
-		return errors.Wrap(err, "Invalid Action in MenuEntry")
+		return fmt.Errorf("Invalid Action in MenuEntry : %w", err)
 	}
 	return nil
 }

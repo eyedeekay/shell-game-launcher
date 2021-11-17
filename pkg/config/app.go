@@ -1,9 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/pkg/errors"
 	"golang.org/x/sys/unix"
 )
 
@@ -27,28 +27,28 @@ type App struct {
 func (a *App) validate() error {
 	// WorkingDirectory
 	if err := os.MkdirAll(a.WorkingDirectory, 0700); err != nil {
-		return errors.Wrapf(err, "Invalid WorkingDirectory : %s", a.WorkingDirectory)
+		return fmt.Errorf("Invalid WorkingDirectory %s : %w", a.WorkingDirectory, err)
 	}
 	if err := unix.Access(a.WorkingDirectory, unix.W_OK|unix.R_OK|unix.X_OK); err != nil {
-		return errors.Wrapf(err, "invalid WorkingDirectory : %s", a.WorkingDirectory)
+		return fmt.Errorf("invalid WorkingDirectory %s : %w", a.WorkingDirectory, err)
 	}
 	// MaxUsers
 	if a.MaxUsers <= 0 {
-		return errors.New("MaxUsers must be a positive integer")
+		return fmt.Errorf("MaxUsers must be a positive integer")
 	}
 	// AllowRegistration is just a bool, nothing to validate
 	// MaxNickLen
 	if a.MaxNickLen <= 0 {
-		return errors.New("MaxNickLen must be a positive integer")
+		return fmt.Errorf("MaxNickLen must be a positive integer")
 	}
 	// MenuMaxIdleTime
 	if a.MenuMaxIdleTime <= 0 {
-		return errors.New("MenuMaxIdleTime must be a positive integer")
+		return fmt.Errorf("MenuMaxIdleTime must be a positive integer")
 	}
 	// PostLoginCommands
 	for i := 0; i < len(a.PostLoginCommands); i++ {
 		if err := validateCommand(a.PostLoginCommands[i]); err != nil {
-			return errors.Wrap(err, "Failed to validate PostLoginCommands")
+			return fmt.Errorf("Failed to validate PostLoginCommands : %w", err)
 		}
 	}
 	return nil
