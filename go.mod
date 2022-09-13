@@ -1,4 +1,4 @@
-module shell-game-launcher
+module github.com/adyxax/shell-game-launcher
 
 go 1.17
 

@@ -4,7 +4,9 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
-	"shell-game-launcher/pkg/config"
+
+	"github.com/adyxax/shell-game-launcher/config"
+
 	"testing"
 )
 

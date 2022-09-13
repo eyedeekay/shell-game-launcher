@@ -2,8 +2,9 @@ package client
 
 import (
 	"os"
-	"shell-game-launcher/pkg/config"
 	"testing"
+
+	"github.com/adyxax/shell-game-launcher/config"
 )
 
 func TestGetValidInput(t *testing.T) {
