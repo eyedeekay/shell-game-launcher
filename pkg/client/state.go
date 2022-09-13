@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/adyxax/shell-game-launcher/config"
+	"github.com/adyxax/shell-game-launcher/pkg/config"
 )
 
 type State struct {

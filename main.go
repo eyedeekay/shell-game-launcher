@@ -1,8 +1,8 @@
 package main
 
 import (
-	client "github.com/adyxax/shell-game-launcher/client"
-	config "github.com/adyxax/shell-game-launcher/config"
+	client "github.com/adyxax/shell-game-launcher/pkg/client"
+	config "github.com/adyxax/shell-game-launcher/pkg/config"
 
 	"log"
 	"os"

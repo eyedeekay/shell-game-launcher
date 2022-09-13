@@ -5,7 +5,7 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/adyxax/shell-game-launcher/config"
+	"github.com/adyxax/shell-game-launcher/pkg/config"
 
 	"testing"
 )

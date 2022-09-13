@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/adyxax/shell-game-launcher/config"
+	"github.com/adyxax/shell-game-launcher/pkg/config"
 )
 
 func TestGetValidInput(t *testing.T) {
